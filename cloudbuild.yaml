@@ -10,7 +10,10 @@ steps:
 
   # Push both tags
   - name: gcr.io/cloud-builders/docker
-    args: [push, --all-tags, ${_REGISTRY}/saleor-backend]
+    args:
+      - push
+      - --all-tags
+      - ${_REGISTRY}/saleor-backend
 
   # Deploy Saleor API
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
