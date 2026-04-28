@@ -74,19 +74,15 @@ resource "google_project_iam_member" "cloudbuild_logs" {
   member  = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
 
-resource "google_cloudbuild_trigger" "saleor_backend" {
-  name            = "saleor-backend-deploy"
-  location        = var.region
-  service_account = google_service_account.cloudbuild.id
-
-  github {
-    owner = var.github_owner
-    name  = var.github_repo
-    push {
-      branch = "^main$"
-    }
-  }
-
-  included_files = ["saleor/**"]
-  filename       = "saleor/cloudbuild.yaml"
-}
+# Cloud Build trigger is created manually in GCP Console (Cloud Build → Triggers → Create).
+# Terraform cannot create it automatically because it requires a pre-existing GitHub App
+# connection in the region, which requires an interactive OAuth flow.
+#
+# Manual trigger settings:
+#   Name:           saleor-backend-deploy
+#   Region:         europe-north1
+#   Repository:     Korev/saleor (GitHub)
+#   Branch filter:  ^main$
+#   Included files: saleor/**
+#   Config file:    saleor/cloudbuild.yaml
+#   Service account: saleor-cloudbuild@<project>.iam.gserviceaccount.com
