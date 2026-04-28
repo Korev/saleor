@@ -1,12 +1,10 @@
 steps:
-  # Build image from saleor/ subdirectory (Dockerfile lives there, monorepo root is the Cloud Build workspace)
   - name: gcr.io/cloud-builders/docker
     args:
       - build
-      - -f=saleor/Dockerfile
       - -t=${_REGISTRY}/saleor-backend:$BUILD_ID
       - -t=${_REGISTRY}/saleor-backend:latest
-      - saleor
+      - .
 
   # Push both tags
   - name: gcr.io/cloud-builders/docker
