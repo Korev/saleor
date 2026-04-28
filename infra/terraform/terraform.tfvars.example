@@ -1,0 +1,6 @@
+project_id         = "vetfamily-494417"
+region             = "europe-north1"
+db_password        = "change-me-use-a-strong-password"
+storefront_origins = ["https://vetfamily-storefront-289757075353.europe-north1.run.app"]
+github_owner       = "your-github-username"
+github_repo        = "petvamily"
