@@ -52,7 +52,7 @@ module "cache" {
   source     = "./modules/cache"
   region     = var.region
   vpc_id     = module.networking.vpc_id
-  depends_on = [google_project_service.apis]
+  depends_on = [module.networking]
 }
 
 module "storage" {

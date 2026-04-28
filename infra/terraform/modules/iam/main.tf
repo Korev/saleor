@@ -56,10 +56,16 @@ resource "google_project_iam_member" "cloudbuild_ar_writer" {
   member  = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
 
-resource "google_project_iam_member" "cloudbuild_sa_user" {
-  project = var.project_id
-  role    = "roles/iam.serviceAccountUser"
-  member  = "serviceAccount:${google_service_account.cloudbuild.email}"
+resource "google_service_account_iam_member" "cloudbuild_impersonate_api" {
+  service_account_id = google_service_account.saleor_api.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.cloudbuild.email}"
+}
+
+resource "google_service_account_iam_member" "cloudbuild_impersonate_worker" {
+  service_account_id = google_service_account.saleor_worker.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
 
 resource "google_project_iam_member" "cloudbuild_logs" {

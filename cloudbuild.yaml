@@ -1,11 +1,12 @@
 steps:
-  # Build image from repo root (Dockerfile is here)
+  # Build image from saleor/ subdirectory (Dockerfile lives there, monorepo root is the Cloud Build workspace)
   - name: gcr.io/cloud-builders/docker
     args:
       - build
+      - -f=saleor/Dockerfile
       - -t=${_REGISTRY}/saleor-backend:$BUILD_ID
       - -t=${_REGISTRY}/saleor-backend:latest
-      - .
+      - saleor
 
   # Push both tags
   - name: gcr.io/cloud-builders/docker
@@ -52,7 +53,7 @@ steps:
       - --vpc-connector=petvamily-vpc-connector
       - --vpc-egress=private-ranges-only
       - --command=/app/scripts/worker-entrypoint.sh
-      - --set-secrets=DATABASE_URL=saleor-database-url:latest,REDIS_URL=saleor-redis-url:latest,SECRET_KEY=saleor-secret-key:latest,STOREFRONT_URL=saleor-storefront-url:latest,GCS_MEDIA_BUCKET_NAME=saleor-gcs-media-bucket:latest
+      - --set-secrets=DATABASE_URL=saleor-database-url:latest,REDIS_URL=saleor-redis-url:latest,SECRET_KEY=saleor-secret-key:latest,STOREFRONT_URL=saleor-storefront-url:latest,GCS_MEDIA_BUCKET_NAME=saleor-gcs-media-bucket:latest,DEFAULT_FROM_EMAIL=saleor-default-from-email:latest,SALEOR_APP_TOKEN=saleor-app-token:latest
 
 substitutions:
   _REGISTRY: europe-north1-docker.pkg.dev/$PROJECT_ID/petvamily
