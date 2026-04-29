@@ -25,8 +25,10 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 }
 
 resource "google_vpc_access_connector" "connector" {
-  name          = "petvamily-vpc-connector"
-  region        = var.region
-  ip_cidr_range = "10.8.0.0/28"
-  network       = google_compute_network.vpc.name
+  name           = "petvamily-vpc-connector"
+  region         = var.region
+  ip_cidr_range  = "10.8.0.0/28"
+  network        = google_compute_network.vpc.name
+  min_throughput = 200
+  max_throughput = 300
 }
